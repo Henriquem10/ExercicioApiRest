@@ -12,14 +12,35 @@ namespace BibliotecaApi.Repositories
             _context = context;
         }
 
-        public async Task<List<Livro>> GetAllAsync()
+        public async Task<List<Livro>> GetAllAsync(string? autor, string? titulo, string? ISBN, int? ano)
         {
-            return await _context.Livros.ToListAsync();
+            var query = _context.Livros.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(autor))
+            {
+                query = query.Where(l => l.Autor.Contains(autor));
+            }
+
+            if (!string.IsNullOrWhiteSpace(titulo))
+            {
+                query = query.Where(l => l.Titulo.Contains(titulo));
+            }
+            if (!string.IsNullOrWhiteSpace(ISBN))
+            {
+                query = query.Where(l => l.ISBN.Contains(ISBN));
+            }
+            if (ano.HasValue)
+            {
+                query = query.Where(l => l.AnoPublicacao.Equals(ano));
+            }
+
+            return await query.ToListAsync();
         }
         public async Task <Livro?> GetByIdAsync(int id)
         {
             return await _context.Livros.FindAsync(id);
         }
+
         public async Task AddAsync(Livro livro)
         {
             await _context.Livros.AddAsync(livro);
@@ -39,6 +60,25 @@ namespace BibliotecaApi.Repositories
                 _context.Livros.Remove(livro);
                 await _context.SaveChangesAsync();
             }
+        }
+        public async Task Emprestar(Livro livro)
+        {
+            if (!livro.Disponivel)
+            {
+                throw new InvalidOperationException("Livro já emprestado.");
+            }
+            livro.Disponivel = false;
+            await UpdateAsync(livro);
+        }
+
+        public async Task Devolver(Livro livro)
+        {
+            if (livro.Disponivel)
+            {
+                throw new InvalidOperationException("Livro já devolvido.");
+            }
+            livro.Disponivel = true;
+            await UpdateAsync(livro);
         }
 
     }

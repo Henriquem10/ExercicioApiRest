@@ -17,9 +17,9 @@ namespace BibliotecaApi.Controllers
         }
 
         [HttpGet(Name = "ListarLivros")]
-        public async Task<ActionResult<List<Livro>>> GetaLL()
+        public async Task<ActionResult<List<Livro>>> GetAll(string? autor, string? titulo, string? ISBN, int? ano)
         {
-            var livros = await _repository.GetAllAsync();
+            var livros = await _repository.GetAllAsync(autor,titulo, ISBN, ano);
             return livros;
         }
 
@@ -34,7 +34,7 @@ namespace BibliotecaApi.Controllers
             return Ok(livro);
         }
 
-        [HttpPost(Name = "AdicionarLivro")]
+        [HttpPost("AdicionaLivro",Name = "AdicionarLivro")]
         public async Task<ActionResult> AddLivro(CreateLivroDto dto)
         {
             var livro = new Livro
@@ -62,6 +62,32 @@ namespace BibliotecaApi.Controllers
             livro.ISBN = dto.ISBN;
             livro.AnoPublicacao = dto.AnoPublicacao;
             await _repository.UpdateAsync(livro);
+            return NoContent();
+        }
+
+        [HttpPatch("{id}/emprestar")]
+        public async Task<ActionResult> EmprestarLivro(int id)
+        {
+            var livro = await _repository.GetByIdAsync(id);
+
+            if (livro == null)
+                return NotFound();
+
+            await _repository.Emprestar(livro);
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}/devolver")]
+        public async Task<ActionResult> DevolverLivro(int id)
+        {
+            var livro = await _repository.GetByIdAsync(id);
+
+            if (livro == null)
+                return NotFound();
+
+            await _repository.Devolver(livro);
+
             return NoContent();
         }
 
