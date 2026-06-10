@@ -30,7 +30,7 @@ BibliotecaApi
 ## 📖 Funcionalidades
 
 * Cadastrar livros
-* Consultar todos os livros
+* Consultar todos os livros ou filtrar por alguma das variaveis da classe Livro.
 * Consultar livro por ID
 * Atualizar informações de um livro
 * Remover livros do catálogo
