@@ -36,6 +36,8 @@ BibliotecaApi
 * Remover livros do catálogo
 * Validação de dados de entrada
 * Persistência em banco de dados SQL Server
+* Emprestar um livro, mudando seu valor de disponibilidade para false
+* Devolver um livro, mudando sua disponibilidade para true
 
 ## 📚 Modelo da Entidade
 
@@ -92,6 +94,16 @@ PUT /api/livros/{id}
 
 ```http
 DELETE /api/livros/{id}
+```
+
+### Emprestar livro
+```http
+PATCH /api/livros/{id}/emprestar
+```
+
+### Devolver livro
+```http
+PATCH /api/livros/{id}/devolver
 ```
 
 ## ⚙️ Como Executar o Projeto
