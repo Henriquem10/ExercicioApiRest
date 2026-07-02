@@ -32,11 +32,21 @@ namespace BibliotecaApi.Services
         }
         public async Task Emprestar(Livro livro)
         {
-            await _livroRepository.Emprestar(livro);
+            if (!livro.Disponivel)
+            {
+                throw new InvalidOperationException("Livro já emprestado.");
+            }
+            livro.Disponivel = false;
+            await _livroRepository.UpdateAsync(livro);
         }
         public async Task Devolver(Livro livro)
         {
-            await _livroRepository.Devolver(livro);
+            if (livro.Disponivel)
+            {
+                throw new InvalidOperationException("Livro já devolvido.");
+            }
+            livro.Disponivel = true;
+            await _livroRepository.UpdateAsync(livro);
         }
     }
 }

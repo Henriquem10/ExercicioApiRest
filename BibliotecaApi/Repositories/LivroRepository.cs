@@ -61,25 +61,5 @@ namespace BibliotecaApi.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task Emprestar(Livro livro)
-        {
-            if (!livro.Disponivel)
-            {
-                throw new InvalidOperationException("Livro já emprestado.");
-            }
-            livro.Disponivel = false;
-            await UpdateAsync(livro);
-        }
-
-        public async Task Devolver(Livro livro)
-        {
-            if (livro.Disponivel)
-            {
-                throw new InvalidOperationException("Livro já devolvido.");
-            }
-            livro.Disponivel = true;
-            await UpdateAsync(livro);
-        }
-
     }
 }

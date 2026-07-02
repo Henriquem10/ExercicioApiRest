@@ -9,7 +9,5 @@ namespace BibliotecaApi.Repositories
         Task AddAsync(Livro livro);
         Task UpdateAsync(Livro livro);
         Task DeleteAsync(int id);
-        Task Emprestar(Livro livro);
-        Task Devolver(Livro livro);
     }
 }
