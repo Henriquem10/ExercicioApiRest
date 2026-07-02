@@ -1,6 +1,6 @@
 ﻿using BibliotecaApi.DTOs;
 using BibliotecaApi.Models;
-using BibliotecaApi.Repositories;
+using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +11,11 @@ namespace BibliotecaApi.Controllers
     [Route("api/[controller]")]
     public class LivrosController : ControllerBase
     {
-        private readonly ILivroRepository _repository;
+        private readonly ILivroService _service;
 
-        public LivrosController(ILivroRepository repository)
+        public LivrosController(ILivroService service)
         {
-            _repository = repository;
+            _service = service;
         }
         /// <summary>
         /// Lista todos os livros cadastrados.
@@ -30,7 +30,7 @@ namespace BibliotecaApi.Controllers
         [HttpGet(Name = "ListarLivros")]
         public async Task<ActionResult<List<Livro>>> GetAll(string? autor, string? titulo, string? ISBN, int? ano)
         {
-            var livros = await _repository.GetAllAsync(autor,titulo, ISBN, ano);
+            var livros = await _service.GetAllAsync(autor,titulo, ISBN, ano);
             return livros;
         }
 
@@ -46,7 +46,7 @@ namespace BibliotecaApi.Controllers
         [HttpGet("{id}", Name = "ObterLivroPorId")]
         public async Task<ActionResult<Livro>> GetById(int id)
         {
-            var livro = await _repository.GetByIdAsync(id);
+            var livro = await _service.GetByIdAsync(id);
             if (livro == null)
             {
                 return NotFound();
@@ -76,7 +76,7 @@ namespace BibliotecaApi.Controllers
                 AnoPublicacao = dto.AnoPublicacao,
                 Disponivel = true
             };
-            await _repository.AddAsync(livro);
+            await _service.AddAsync(livro);
             return CreatedAtRoute("ObterLivroPorId", new { id = livro.Id }, livro);
         }
 
@@ -95,7 +95,7 @@ namespace BibliotecaApi.Controllers
         [HttpPut("{id}", Name = "AtualizarLivro")]
         public async Task<ActionResult> UpdateLivro(int id, CreateLivroDto dto)
         {
-            var livro = await _repository.GetByIdAsync(id);
+            var livro = await _service.GetByIdAsync(id);
             if (livro == null)
             {
                 return NotFound();
@@ -104,7 +104,7 @@ namespace BibliotecaApi.Controllers
             livro.Autor = dto.Autor;
             livro.ISBN = dto.ISBN;
             livro.AnoPublicacao = dto.AnoPublicacao;
-            await _repository.UpdateAsync(livro);
+            await _service.UpdateAsync(livro);
             return NoContent();
         }
 
@@ -122,12 +122,12 @@ namespace BibliotecaApi.Controllers
         [HttpPatch("{id}/emprestar")]
         public async Task<ActionResult> EmprestarLivro(int id)
         {
-            var livro = await _repository.GetByIdAsync(id);
+            var livro = await _service.GetByIdAsync(id);
 
             if (livro == null)
                 return NotFound();
 
-            await _repository.Emprestar(livro);
+            await _service.Emprestar(livro);
 
             return NoContent();
         }
@@ -145,12 +145,12 @@ namespace BibliotecaApi.Controllers
         [HttpPatch("{id}/devolver")]
         public async Task<ActionResult> DevolverLivro(int id)
         {
-            var livro = await _repository.GetByIdAsync(id);
+            var livro = await _service.GetByIdAsync(id);
 
             if (livro == null)
                 return NotFound();
 
-            await _repository.Devolver(livro);
+            await _service.Devolver(livro);
 
             return NoContent();
         }
@@ -167,12 +167,12 @@ namespace BibliotecaApi.Controllers
         [HttpDelete("{id}", Name = "DeletarLivro")]
         public async Task<ActionResult> DeleteLivro(int id)
         {
-                       var livro = await _repository.GetByIdAsync(id);
+                       var livro = await _service.GetByIdAsync(id);
             if (livro == null)
             {
                 return NotFound();
             }
-            await _repository.DeleteAsync(id);
+            await _service.DeleteAsync(id);
             return NoContent();
         }
     }
