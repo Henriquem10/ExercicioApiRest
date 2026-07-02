@@ -29,7 +29,7 @@ BibliotecaApi
 
 ## 📖 Funcionalidades
 
-* Cadastrar livros
+* Cadastrar livros. Necessário ter autorização de admin para essa ação, com o token fornecido
 * Consultar todos os livros ou filtrar por alguma das variaveis da classe Livro.
 * Consultar livro por ID
 * Atualizar informações de um livro
