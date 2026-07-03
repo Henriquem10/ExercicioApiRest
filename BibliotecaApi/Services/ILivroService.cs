@@ -1,4 +1,5 @@
-﻿using BibliotecaApi.Models;
+﻿using BibliotecaApi.DTOs;
+using BibliotecaApi.Models;
 
 namespace BibliotecaApi.Services
 {
@@ -29,7 +30,7 @@ namespace BibliotecaApi.Services
         /// Adds a new book to the collection.
         /// </summary>
         /// <param name="livro">The book to add.</param>
-        Task AddAsync(Livro livro);
+        Task<CreateLivroDto> AddAsync(CreateLivroDto livro);
 
         /// <summary>
         /// Updates an existing book.

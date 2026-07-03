@@ -1,4 +1,6 @@
-﻿using BibliotecaApi.Models;
+﻿using BibliotecaApi.DTOs;
+using BibliotecaApi.Mapping;
+using BibliotecaApi.Models;
 using BibliotecaApi.Repositories;
 
 namespace BibliotecaApi.Services
@@ -18,9 +20,11 @@ namespace BibliotecaApi.Services
         {
             return await _livroRepository.GetByIdAsync(id);
         }
-        public async Task AddAsync(Livro livro)
+        public async Task<CreateLivroDto> AddAsync(CreateLivroDto request)
         {
+            var livro = LivroMapper.ToEntity(request);
             await _livroRepository.AddAsync(livro);
+            return request;
         }
         public async Task UpdateAsync(Livro livro)
         {

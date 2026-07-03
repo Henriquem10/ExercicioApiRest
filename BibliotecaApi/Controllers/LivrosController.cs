@@ -1,4 +1,5 @@
 ﻿using BibliotecaApi.DTOs;
+using BibliotecaApi.DTOs.Responses;
 using BibliotecaApi.Models;
 using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,12 @@ namespace BibliotecaApi.Controllers
         public async Task<ActionResult<List<Livro>>> GetAll(string? autor, string? titulo, string? ISBN, int? ano)
         {
             var livros = await _service.GetAllAsync(autor,titulo, ISBN, ano);
-            return livros;
+            return Ok(new ApiResponse<List<Livro>>
+            {
+                Success = true,
+                Message = "Livros listados com sucesso.",
+                Data = livros
+            });
         }
 
         /// <summary>
@@ -49,9 +55,18 @@ namespace BibliotecaApi.Controllers
             var livro = await _service.GetByIdAsync(id);
             if (livro == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<object>
+                {
+                    Success = false,
+                    Message = "Livro não encontrado."
+                });
             }
-            return Ok(livro);
+            return Ok(new ApiResponse<Livro>
+            {
+                Success = true,
+                Message = "Livro encontrado com sucesso.",
+                Data = livro
+            });
         }
         /// <summary>
         /// Adiciona um novo livro ao catálogo.
@@ -68,16 +83,17 @@ namespace BibliotecaApi.Controllers
         [HttpPost("AdicionaLivro", Name = "AdicionarLivro")]
         public async Task<ActionResult> AddLivro(CreateLivroDto dto)
         {
-            var livro = new Livro
-            {
-                Titulo = dto.Titulo,
-                Autor = dto.Autor,
-                ISBN = dto.ISBN,
-                AnoPublicacao = dto.AnoPublicacao,
-                Disponivel = true
-            };
-            await _service.AddAsync(livro);
-            return CreatedAtRoute("ObterLivroPorId", new { id = livro.Id }, livro);
+
+            var livro = await _service.AddAsync(dto);
+            return CreatedAtRoute(
+                "ObterLivroPorId",
+                new { id = livro.Id },
+                new ApiResponse<CreateLivroDto>
+                {
+                    Success = true,
+                    Message = "Livro cadastrado com sucesso.",
+                    Data = livro
+                });
         }
 
         /// <summary>

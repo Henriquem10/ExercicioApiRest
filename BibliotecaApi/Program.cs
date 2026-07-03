@@ -1,5 +1,6 @@
 using BibliotecaApi.Data;
 using BibliotecaApi.Repositories;
+using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -76,6 +77,7 @@ builder.Services.AddDbContext<BibliotecaContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
+builder.Services.AddScoped<ILivroService, LivroService>();
 
 var app = builder.Build();
 

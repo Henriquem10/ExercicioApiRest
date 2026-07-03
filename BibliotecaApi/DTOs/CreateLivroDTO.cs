@@ -4,6 +4,7 @@ namespace BibliotecaApi.DTOs
 {
     public class CreateLivroDto
     {
+        public int Id { get; set; }
         public required string Titulo { get; set; }
         public required string Autor { get; set; }
         [StringLength(20)]
