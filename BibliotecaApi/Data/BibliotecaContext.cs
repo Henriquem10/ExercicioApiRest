@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BibliotecaApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BibliotecaApi.Data
 {
@@ -8,5 +9,6 @@ namespace BibliotecaApi.Data
         {
         }
         public DbSet<Models.Livro> Livros { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }

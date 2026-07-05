@@ -19,13 +19,13 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(LoginDTO dto)
     {
-        if (dto.Username != "admin" ||
-            dto.Password != "123456")
+        if (dto.Usuario != "admin" ||
+            dto.Senha != "123456")
         {
             return Unauthorized();
         }
 
-        var token = GenerateToken(dto.Username);
+        var token = GenerateToken(dto.Usuario);
 
         return Ok(new { token });
     }
