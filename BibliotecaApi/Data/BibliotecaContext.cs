@@ -10,5 +10,13 @@ namespace BibliotecaApi.Data
         }
         public DbSet<Models.Livro> Livros { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Livro>()
+                .HasMany(l => l.Categorias)
+                .WithMany(c => c.Livros);
+        }
     }
 }

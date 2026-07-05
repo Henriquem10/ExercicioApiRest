@@ -29,7 +29,7 @@ namespace BibliotecaApi.Controllers
         /// <response code="200">Livros retornados com sucesso.</response>
         [ProducesResponseType(typeof(List<Livro>), StatusCodes.Status200OK)]
         [HttpGet(Name = "ListarLivros")]
-        public async Task<ActionResult<List<Livro>>> GetAll(string? autor, string? titulo, string? ISBN, int? ano)
+        public async Task<ActionResult<List<Livro>>> GetAll(Autor? autor, string? titulo, string? ISBN, int? ano)
         {
             var livros = await _service.GetAllAsync(autor,titulo, ISBN, ano);
             return Ok(new ApiResponse<List<Livro>>

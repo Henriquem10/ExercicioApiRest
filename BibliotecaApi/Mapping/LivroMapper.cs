@@ -13,6 +13,7 @@ namespace BibliotecaApi.Mapping
             {
                 Titulo = request.Titulo,
                 Autor = request.Autor,
+                AutorId = request.AutorId,
                 ISBN = request.ISBN,
                 AnoPublicacao = request.AnoPublicacao,
                 Disponivel = true

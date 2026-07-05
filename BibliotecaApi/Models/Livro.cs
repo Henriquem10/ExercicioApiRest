@@ -5,8 +5,10 @@
         public int Id { get; set; }
         public required string ISBN { get; set; }
         public required string Titulo { get; set; }
-        public required string Autor { get; set; }
-        
+        public required Autor Autor { get; set; }
+        public required Autor AutorId { get; set; }
+        public ICollection<Categoria> Categorias { get; set; } = new List<Categoria>();
+
         private int _anoPublicacao;
         public int AnoPublicacao
         {

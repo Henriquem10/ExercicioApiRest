@@ -12,7 +12,7 @@ namespace BibliotecaApi.Services
         {
             _livroRepository = livroRepository;
         }
-        public async Task<List<Livro>> GetAllAsync(string? autor, string? titulo, string? ISBN, int? ano)
+        public async Task<List<Livro>> GetAllAsync(Autor? autor, string? titulo, string? ISBN, int? ano)
         {
             return await _livroRepository.GetAllAsync(autor, titulo, ISBN, ano);
         }

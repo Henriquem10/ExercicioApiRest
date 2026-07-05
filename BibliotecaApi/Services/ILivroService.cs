@@ -17,7 +17,7 @@ namespace BibliotecaApi.Services
         /// <param name="ISBN">The ISBN of the book.</param>
         /// <param name="ano">The publication year of the book.</param>
         /// <returns>A list of books matching the filters.</returns>
-        Task<List<Livro>> GetAllAsync(string? autor, string? titulo, string? ISBN, int? ano);
+        Task<List<Livro>> GetAllAsync(Autor autorNome, string? titulo, string? ISBN, int? ano);
 
         /// <summary>
         /// Retrieves a book by its unique identifier.

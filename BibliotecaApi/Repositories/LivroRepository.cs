@@ -12,13 +12,13 @@ namespace BibliotecaApi.Repositories
             _context = context;
         }
 
-        public async Task<List<Livro>> GetAllAsync(string? autor, string? titulo, string? ISBN, int? ano)
+        public async Task<List<Livro>> GetAllAsync(Autor? autor, string? titulo, string? ISBN, int? ano)
         {
             var query = _context.Livros.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(autor))
+            if (autor != null && !string.IsNullOrWhiteSpace(autor.Nome))
             {
-                query = query.Where(l => l.Autor.Contains(autor));
+                query = query.Where(l => l.Autor.Nome.Contains(autor.Nome));
             }
 
             if (!string.IsNullOrWhiteSpace(titulo))
