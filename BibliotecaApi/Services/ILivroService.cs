@@ -48,7 +48,7 @@ namespace BibliotecaApi.Services
         /// Marks a book as borrowed.
         /// </summary>
         /// <param name="livro">The book to borrow.</param>
-        Task Emprestar(Livro livro);
+        Task Emprestar(Livro livro, int usuarioId);
 
         /// <summary>
         /// Marks a book as returned.

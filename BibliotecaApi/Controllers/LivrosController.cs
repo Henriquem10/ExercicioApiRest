@@ -4,6 +4,7 @@ using BibliotecaApi.Models;
 using BibliotecaApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BibliotecaApi.Controllers
 {
@@ -138,12 +139,13 @@ namespace BibliotecaApi.Controllers
         [HttpPatch("{id}/emprestar")]
         public async Task<ActionResult> EmprestarLivro(int id)
         {
+            var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
             var livro = await _service.GetByIdAsync(id);
 
             if (livro == null)
                 return NotFound();
 
-            await _service.Emprestar(livro);
+            await _service.Emprestar(livro, usuarioId);
 
             return NoContent();
         }

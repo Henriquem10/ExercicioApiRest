@@ -15,7 +15,7 @@
             get => _anoPublicacao;
             set => _anoPublicacao = value > 0 ? value : throw new ArgumentException("AnoPublicacao deve ser maior que 0", nameof(value));
         }
-        public bool Disponivel { get; set; } = true;
+        public Emprestimo Emprestimos { get; set; }
 
     }
 }

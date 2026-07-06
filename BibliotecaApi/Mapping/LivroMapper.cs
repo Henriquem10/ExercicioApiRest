@@ -1,4 +1,5 @@
-﻿using BibliotecaApi.DTOs;
+﻿using Azure.Core;
+using BibliotecaApi.DTOs;
 using BibliotecaApi.DTOs.Responses;
 using BibliotecaApi.Models;
 
@@ -16,7 +17,8 @@ namespace BibliotecaApi.Mapping
                 AutorId = request.AutorId,
                 ISBN = request.ISBN,
                 AnoPublicacao = request.AnoPublicacao,
-                Disponivel = true
+                Emprestimos = new Emprestimo { LivroId = request.Id, Status = 0 }
+
             };
         }
         public LivroRespondeDTO ToResponse (Livro livro)
@@ -26,8 +28,7 @@ namespace BibliotecaApi.Mapping
                 Titulo = livro.Titulo,
                 Autor = livro.Autor,
                 ISBN = livro.ISBN,
-                AnoPublicacao = livro.AnoPublicacao,
-                Disponivel = livro.Disponivel
+                AnoPublicacao = livro.AnoPublicacao
             };
         }
     }

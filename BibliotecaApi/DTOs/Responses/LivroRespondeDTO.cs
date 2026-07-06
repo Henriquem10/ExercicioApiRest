@@ -12,6 +12,6 @@ namespace BibliotecaApi.DTOs.Responses
         public required string ISBN { get; set; }
         [Range(1, 3000)]
         public int AnoPublicacao { get; set; }
-        public bool Disponivel { get; set; }
+        public Emprestimo Emprestimos { get; set; }
     }
 }

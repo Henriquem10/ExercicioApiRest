@@ -1,8 +1,10 @@
-﻿namespace BibliotecaApi.DTOs
+﻿using BibliotecaApi.Models;
+
+namespace BibliotecaApi.DTOs
 {
     public class LoginDTO
     {
-        public string Usuario { get; set; }
+        public Usuario Usuario { get; set; }
         public string Senha { get; set; }
     }
 }
