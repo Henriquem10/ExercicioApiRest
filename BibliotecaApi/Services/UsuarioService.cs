@@ -7,9 +7,11 @@ namespace BibliotecaApi.Services
     public class UsuarioService : IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
-        public UsuarioService(IUsuarioRepository usuarioRepository)
+        private readonly ILogger<UsuarioService> _logger;
+        public UsuarioService(IUsuarioRepository usuarioRepository, ILogger<UsuarioService> logger)
         {
             _usuarioRepository = usuarioRepository;
+            _logger = logger;
         }
         public async Task<List<Usuario>> GetAllUsersAsync(string? nome, string? Email, string? role)
         {
@@ -29,6 +31,7 @@ namespace BibliotecaApi.Services
                 Senha = user.Senha
             };
             await _usuarioRepository.CreateUserAsync(usuario);
+            _logger.LogInformation("Usuário criado. Nome: {Nome}", user.Nome);
             return user;
         }
         public async Task UpdateUserAsync(Usuario user)
@@ -38,6 +41,7 @@ namespace BibliotecaApi.Services
         public async Task DeleteUserAsync(int id)
         {
             await _usuarioRepository.DeleteUserAsync(id);
+            _logger.LogInformation("Usuário Deletado. id: {id}", id);
         }
 
     }

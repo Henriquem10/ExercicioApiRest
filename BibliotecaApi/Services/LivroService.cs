@@ -9,9 +9,12 @@ namespace BibliotecaApi.Services
     {
         private readonly ILivroRepository _livroRepository;
         private readonly IEmprestimoRepository _emprestimoRepository;
-        public LivroService(ILivroRepository livroRepository)
+        private readonly ILogger<LivroService> _logger;
+        public LivroService(ILivroRepository livroRepository, ILogger<LivroService> logger, IEmprestimoRepository emprestimoRepository)
         {
             _livroRepository = livroRepository;
+            _logger = logger;
+            _emprestimoRepository = emprestimoRepository;
         }
         public async Task<List<Livro>> GetAllAsync(Autor? autor, string? titulo, string? ISBN, int? ano)
         {
@@ -25,6 +28,7 @@ namespace BibliotecaApi.Services
         {
             var livro = LivroMapper.ToEntity(request);
             await _livroRepository.AddAsync(livro);
+            _logger.LogInformation("Livro {Titulo} criado.", livro.Titulo);
             return request;
         }
         public async Task UpdateAsync(Livro livro)
@@ -39,7 +43,8 @@ namespace BibliotecaApi.Services
         {
             if (livro.Emprestimos.Status != 0)
             {
-                throw new InvalidOperationException("Livro já emprestado.");
+                _logger.LogInformation("Livro {Titulo} já emprestado.", livro.Titulo);
+                throw new InvalidOperationException();
             }
 
             var emprestimo = new Emprestimo
@@ -55,7 +60,8 @@ namespace BibliotecaApi.Services
         {
             if (livro.Emprestimos.Status == 0)
             {
-                throw new InvalidOperationException("Livro não está emprestado.");
+                _logger.LogInformation("Livro Não esta emprestado.");
+                throw new InvalidOperationException();
             }
             var emprestimo = await _emprestimoRepository.GetEmprestimoAtivoAsync(livro.Id);
             emprestimo.DataDevolucao = DateTime.Now;
