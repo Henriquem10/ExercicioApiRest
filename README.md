@@ -12,20 +12,7 @@ API REST desenvolvida em C# com ASP.NET Core para gerenciamento de livros de uma
 * Dependency Injection
 * Repository Pattern
 
-## 📁 Estrutura do Projeto
 
-```text
-BibliotecaApi
-│
-├── Controllers
-├── Data
-├── DTOs
-├── Models
-├── Repositories
-├── Migrations
-├── Program.cs
-└── appsettings.json
-```
 
 ## 📖 Funcionalidades
 
@@ -39,19 +26,7 @@ BibliotecaApi
 * Emprestar um livro, mudando seu valor de disponibilidade para false
 * Devolver um livro, mudando sua disponibilidade para true
 
-## 📚 Modelo da Entidade
 
-```csharp
-public class Livro
-{
-    public int Id { get; set; }
-    public string Titulo { get; set; }
-    public string Autor { get; set; }
-    public string ISBN { get; set; }
-    public int AnoPublicacao { get; set; }
-    public bool Disponivel { get; set; }
-}
-```
 
 ## 🔗 Endpoints
 
